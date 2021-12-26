@@ -22,5 +22,5 @@ def create_default_accounts():
     # Create liability accounts
     liabilities = AccountType.add_root(name=names.LIABILITIES)
     income = liabilities.add_child(name=names.DEFERRED_INCOME)
-    for i, name in enumerate(names.DEFERRED_INCOME_ACCOUNT_TYPES):
+    for name in names.DEFERRED_INCOME_ACCOUNT_TYPES:
         income.add_child(name=name)

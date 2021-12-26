@@ -121,9 +121,10 @@ class AccountsView(JSONView):
             raise InvalidPayload("Amount must be positive")
         if amount < getattr(settings, 'ACCOUNTS_MIN_LOAD_VALUE', D('0.00')):
             raise ValidationError(errors.AMOUNT_TOO_LOW)
-        if hasattr(settings, 'ACCOUNTS_MAX_ACCOUNT_VALUE'):
-            if amount > getattr(settings, 'ACCOUNTS_MAX_ACCOUNT_VALUE'):
-                raise ValidationError(errors.AMOUNT_TOO_HIGH)
+        if hasattr(settings, 'ACCOUNTS_MAX_ACCOUNT_VALUE') and amount > getattr(
+            settings, 'ACCOUNTS_MAX_ACCOUNT_VALUE'
+        ):
+            raise ValidationError(errors.AMOUNT_TOO_HIGH)
         return amount
 
     def clean_start_date(self, value):

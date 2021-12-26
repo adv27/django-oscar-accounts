@@ -21,10 +21,10 @@ def get_headers():
     except User.DoesNotExist:
         User.objects.create_user(USERNAME, None, PASSWORD)
     auth = "%s:%s" % (USERNAME, PASSWORD)
-    auth_headers = {
-        'HTTP_AUTHORIZATION': 'Basic ' + base64.b64encode(auth.encode('utf-8')).decode('utf-8')
+    return {
+        'HTTP_AUTHORIZATION': 'Basic '
+        + base64.b64encode(auth.encode('utf-8')).decode('utf-8')
     }
-    return auth_headers
 
 
 def get(url):

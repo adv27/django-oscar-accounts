@@ -305,9 +305,7 @@ class DeferredIncomeReportView(generic.FormView):
     def get_form_kwargs(self):
         kwargs = {'initial': self.get_initial()}
         if self.is_form_submitted():
-            kwargs.update({
-                'data': self.request.GET,
-            })
+            kwargs['data'] = self.request.GET
         return kwargs
 
     def validate(self):
@@ -358,19 +356,18 @@ class DeferredIncomeReportView(generic.FormView):
                 if days_remaining is None:
                     data['num_open_ended'] += 1
                     data['total_open_ended'] += total
+                elif days_remaining <= 30:
+                    data['num_expiring_within_30'] += 1
+                    data['total_expiring_within_30'] += total
+                elif days_remaining <= 60:
+                    data['num_expiring_within_60'] += 1
+                    data['total_expiring_within_60'] += total
+                elif days_remaining <= 90:
+                    data['num_expiring_within_90'] += 1
+                    data['total_expiring_within_90'] += total
                 else:
-                    if days_remaining <= 30:
-                        data['num_expiring_within_30'] += 1
-                        data['total_expiring_within_30'] += total
-                    elif days_remaining <= 60:
-                        data['num_expiring_within_60'] += 1
-                        data['total_expiring_within_60'] += total
-                    elif days_remaining <= 90:
-                        data['num_expiring_within_90'] += 1
-                        data['total_expiring_within_90'] += total
-                    else:
-                        data['num_expiring_outside_90'] += 1
-                        data['total_expiring_outside_90'] += total
+                    data['num_expiring_outside_90'] += 1
+                    data['total_expiring_outside_90'] += total
 
             totals['total'] += data['total']
             totals['num_accounts'] += data['num_accounts']
@@ -402,9 +399,7 @@ class ProfitLossReportView(generic.FormView):
     def get_form_kwargs(self):
         kwargs = {'initial': self.get_initial()}
         if self.is_form_submitted():
-            kwargs.update({
-                'data': self.request.GET,
-            })
+            kwargs['data'] = self.request.GET
         return kwargs
 
     def validate(self):

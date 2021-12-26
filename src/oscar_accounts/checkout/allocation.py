@@ -38,10 +38,7 @@ class Allocations(object):
         """
         Return a JSON-serialized string representing the object.
         """
-        data = {}
-        for k, v in obj.items():
-            data[k] = str(v)
-
+        data = {k: str(v) for k, v in obj.items()}
         return json.dumps(data, sort_keys=True)
 
     @classmethod
